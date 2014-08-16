@@ -1,0 +1,38 @@
+#!/usr/bin/env python
+
+import os
+from git import Git
+
+# Rider powerclass
+class Rider:
+
+  # Initialize a directory for Rider
+  def rider_init(self):
+    # Setup rider lib
+    if not os.path.exists('rider'):
+      os.makedirs('rider')
+    Git().clone("https://github.com/HackRider/Rider-lib.git")
+
+    # Setup the directories the user code will exist
+    if not os.path.exists('controllers'):
+      os.makedirs('controllers')
+    if not os.path.exists('views'):
+      os.makedirs('views')
+    if not os.path.exists('public/js'):
+      os.makedirs('public/js')
+    if not os.path.exists('public/css'):
+      os.makedirs('public/css')
+
+    # Mark the directory as created by Rider
+    if not os.path.exists('.rider'):
+      file('.rider', 'w')
+
+  # Create a controller
+  def rider_controller(self, controller):
+    if not os.path.exists('controllers/' + controller):
+      file('controllers/' + controller)
+    else:
+      sys.exit('Controller ' + controller + ' already exists')
+
+rider = Rider()
+rider.rider_init()
