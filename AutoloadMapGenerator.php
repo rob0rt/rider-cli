@@ -1,7 +1,7 @@
 <?hh
 
-class URIMapGenerator {
-  public static function getRoutes(): Map<string, string> {
+class AutoloadMapGenerator {
+  public static function getClassMap(): Map<string, string> {
     // Get all the php files in the cwd
     $directory = new RecursiveDirectoryIterator(getcwd());
     $iterator = new RecursiveIteratorIterator($directory);
@@ -14,26 +14,13 @@ class URIMapGenerator {
     // Get the paths from the attributes
     $path_map = Map {};
     foreach ($files as $file) {
-      $paths = self::getPathsFromFile($file[0]);
-      foreach ($paths as $path) {
-        if (isset($path[0])) {
-          $path_map[$path[0]] = $file[0];
-        }
+      $classes = self::getClassesFromFile($file[0]);
+      foreach ($classes as $class) {
+        $path_map[$class] = $file[0];
       }
     }
+    print var_dump($path_map);
     return $path_map;
-  }
-
-  private static function getPathsFromFile(string $file): Vector<string> {
-    $paths = Vector {};
-    require_once($file);
-    $classes = self::getClassesFromFile($file);
-    foreach ($classes as $class) {
-      // Instantiate the classes in the file via Reflection to get the path
-      $reflection_class = new ReflectionClass($class);
-      $paths[] = $reflection_class->getAttribute('path');
-    }
-    return $paths;
   }
 
   private static function getClassesFromFile(string $file): Vector<string> {
@@ -54,4 +41,4 @@ class URIMapGenerator {
   }
 }
 
-URIMapGenerator::getRoutes();
+AutoloadMapGenerator::getClassMap();
