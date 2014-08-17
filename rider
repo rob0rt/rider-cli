@@ -22,6 +22,8 @@ class Rider:
       os.makedirs('controllers')
     if not os.path.exists('views'):
       os.makedirs('views')
+    if not os.path.exists('build'):
+      os.makedirs('build')
     if not os.path.exists('public/js'):
       os.makedirs('public/js')
     if not os.path.exists('public/css'):

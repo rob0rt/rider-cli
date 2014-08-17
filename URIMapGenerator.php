@@ -1,13 +1,13 @@
 <?hh
 
 class URIMapGenerator {
-  public static function getRoutes(): Map<string, string> {
+  public static function getRoutesMap(): Map<string, string> {
     // Get all the php files in the cwd
     $directory = new RecursiveDirectoryIterator(getcwd());
     $iterator = new RecursiveIteratorIterator($directory);
     $files = new RegexIterator(
       $iterator,
-      '/^.+\.php$/i',
+      '/^.+(\.php|\.hh)$/i',
       RecursiveRegexIterator::GET_MATCH
     );
 
@@ -54,4 +54,7 @@ class URIMapGenerator {
   }
 }
 
-URIMapGenerator::getRoutes();
+$routes = URIMapGenerator::getRoutesMap();
+$file = file_get_contents(__DIR__ . '/templates/MapTemplate.txt');
+$file = str_replace('{{CONTENTS}}', var_export($routes, true), $file);
+file_put_contents('build/URIMap.php', $file);

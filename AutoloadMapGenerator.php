@@ -7,7 +7,7 @@ class AutoloadMapGenerator {
     $iterator = new RecursiveIteratorIterator($directory);
     $files = new RegexIterator(
       $iterator,
-      '/^.+\.php$/i',
+      '/^.+(\.php|\.hh)$/i',
       RecursiveRegexIterator::GET_MATCH
     );
 
@@ -40,4 +40,7 @@ class AutoloadMapGenerator {
   }
 }
 
-AutoloadMapGenerator::getClassMap();
+$classes = AutoloadMapGenerator::getClassMap();
+$file = file_get_contents(__DIR__ . '/templates/MapTemplate.txt');
+$file = str_replace('{{CONTENTS}}', var_export($classes, true), $file);
+file_put_contents('build/AutoloadMap.php', $file);

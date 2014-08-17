@@ -1,0 +1,8 @@
+<?hh
+/**
+ * The contents of this file are auto-generated. Any changes made by hand will
+ * be lost. To update the contents of this file, run "rider build" from the
+ * root of your rider project.
+ */
+
+return {{CONTENTS}};
