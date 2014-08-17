@@ -19,7 +19,6 @@ class AutoloadMapGenerator {
         $path_map[$class] = $file[0];
       }
     }
-    print var_dump($path_map);
     return $path_map;
   }
 

@@ -2,6 +2,7 @@
 
 import os
 import sys
+import subprocess
 from git import Git
 
 # Rider powerclass
@@ -39,6 +40,11 @@ class Rider:
     else:
       sys.exit('Controller ' + controller + ' already exists')
 
+  def rider_create_maps(self):
+    path = os.path.realpath(__file__).rpartition('/')[0]
+    subprocess.call(['hhvm', path + '/AutoloadMapGenerator.php'])
+    subprocess.call(['hhvm', path + '/URIMapGenerator.php'])
+
 if (len(sys.argv) < 2):
   sys.exit('Invalid usage')
 
@@ -50,3 +56,5 @@ elif command == 'controller':
   if len(sys.argv) < 3:
     sys.exit('Invalid usage')
   rider.rider_controller(sys.argv[2])
+elif command == 'build':
+  rider.rider_create_maps()
