@@ -12,6 +12,9 @@ class Rider:
   def rider_init(self):
     print "Initalizing Rider"
 
+    if os.path.exists('.rider'):
+      sys.exit('Rider has already been initialized!')
+
     # Setup rider lib
     if not os.path.exists('rider'):
       Git().clone("https://github.com/HackRider/Rider-lib.git")
@@ -35,12 +38,19 @@ class Rider:
 
     print "Finished Initalizing Rider"
 
+  def verify_rider_initalized(self):
+    if not os.path.exists('.rider'):
+      sys.exit("Not a valid Rider project. To initalize rider, "
+               "run \"rider init\"")
+
   # Create a controller
-  def rider_controller(self, controller):
+  def rider_controller(self):
+    controller = raw_input('Enter desired controller name: ')
     if not os.path.exists('controllers/' + controller):
-      file('controllers/' + controller)
+      file('controllers/' + controller, 'w')
     else:
       sys.exit('Controller ' + controller + ' already exists')
+    path = os.path.exists('Enter desired endpoint: ')
 
   def rider_create_maps(self):
     path = os.path.realpath(__file__).rpartition('/')[0]
@@ -54,9 +64,10 @@ command = sys.argv[1].lower()
 rider = Rider()
 if command == 'init':
   rider.rider_init()
-elif command == 'controller':
-  if len(sys.argv) < 3:
-    sys.exit('Invalid usage')
-  rider.rider_controller(sys.argv[2])
+  sys.exit()
+
+rider.verify_rider_initalized() 
+if command == 'controller':
+  rider.rider_controller()
 elif command == 'build':
   rider.rider_create_maps()
