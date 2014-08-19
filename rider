@@ -32,6 +32,13 @@ class Rider:
     if not os.path.exists('public/css'):
       os.makedirs('public/css')
 
+    # Create the entrypoint
+    rider_path = os.path.realpath(__file__).rpartition('/')[0]
+    template = file(rider_path + '/templates/EntryPointTemplate.txt', 'r')
+    template = template.read()
+    app = file('app.php', 'w')
+    app.write(template)
+
     # Mark the directory as created by Rider
     if not os.path.exists('.rider'):
       file('.rider', 'w')
