@@ -41,6 +41,6 @@ class AutoloadMapGenerator {
 }
 
 $classes = AutoloadMapGenerator::getClassMap();
-$file = file_get_contents(__DIR__ . '/templates/MapTemplate.txt');
+$file = file_get_contents(__DIR__ . '/templates/AutoloaderTemplate.txt');
 $file = str_replace('{{CONTENTS}}', var_export($classes, true), $file);
-file_put_contents('build/AutoloadMap.php', $file);
+file_put_contents('build/Autoloader.php', $file);

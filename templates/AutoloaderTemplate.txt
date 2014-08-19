@@ -1,0 +1,16 @@
+<?hh
+/**
+ * The contents of this file are auto-generated. Any changes made by hand will
+ * be lost. To update the contents of this file, run "rider build" from the
+ * root of your rider project.
+ */
+
+class AutoLoader {
+  private static function getClassMap(): Map<string, string> {
+    return {{CONTENTS}};
+  }
+
+  public static function loadFile(string $class): void {
+    require_once self::getClassMap()[$class];
+  }
+}
