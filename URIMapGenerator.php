@@ -55,6 +55,6 @@ class URIMapGenerator {
 }
 
 $routes = URIMapGenerator::getRoutesMap();
-$file = file_get_contents(__DIR__ . '/templates/MapTemplate.txt');
+$file = file_get_contents(__DIR__ . '/templates/URIMapTemplate.txt');
 $file = str_replace('{{CONTENTS}}', var_export($routes, true), $file);
 file_put_contents('build/URIMap.php', $file);

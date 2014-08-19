@@ -5,4 +5,8 @@
  * root of your rider project.
  */
 
-return {{CONTENTS}};
+class URIMap {
+  public static function getURIMap(): Map<string, string> {
+    return {{CONTENTS}};
+  }
+}
