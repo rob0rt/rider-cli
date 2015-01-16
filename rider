@@ -61,10 +61,10 @@ class Rider:
 
     # Prepare the text from the template
     rider_path = os.path.realpath(__file__).rpartition('/')[0]
-    template = file(rider_path + '/templates/ControllerTemplate.txt', 'r')
-    template = template.read()
-    template = controller_template.replace('{{CLASS}}', controller_name)
-    template = controller_template.replace('{{PATH}}', path)
+    template_file = file(rider_path + '/templates/ControllerTemplate.txt', 'r')
+    controller_template = template_file.read()
+    controller_template = controller_template.replace('{{CLASS}}', controller_name)
+    controller_template = controller_template.replace('{{PATH}}', path)
 
     # Write the new controller
     controller = file('controllers/' + controller_name + '.php', 'w')
@@ -72,6 +72,29 @@ class Rider:
 
     # Re-generate the maps
     rider_crate_maps()
+
+  def rider_route(self):
+    # List the paths
+    print 'Select the path to add a route to'
+
+    # Get the user input
+    print 'Select an HTTP method'
+    print '(1) PUT'
+    print '(2) POST'
+    print '(3) GET'
+    print '(4) DELETE'
+
+    method_name = raw_input('Enter desired method name: ')
+
+    # Prepare the template to write
+    template_file = file(rider_path + '/templates/RouteTemplate.txt', 'r')
+    route_template = template_file.read()
+    route_template = route_template.replace('{{METHOD}}', method_type)
+    route_template = route_template.replace('{{NAME}}', method_name)
+    route_template = route_template.replace('{{RETURN}}', return_type)
+
+    # Seek in file and write
+    controller = file('controllers/' + controller_name + '.php', 'w')
 
   # Generate the URI and Autoload Maps
   def rider_create_maps(self):
@@ -94,5 +117,7 @@ if command == 'init':
 rider.verify_rider_initalized() 
 if command == 'controller':
   rider.rider_controller()
+elif comment == 'route':
+  rider.rider_route()
 elif command == 'build':
   rider.rider_create_maps()
