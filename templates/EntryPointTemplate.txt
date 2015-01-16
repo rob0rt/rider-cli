@@ -6,7 +6,7 @@
  */
 
 require_once('build/Autoloader.php');
-spl_register_autoloader('Autoloader::loadFile');
+spl_autoload_register('Autoloader::loadFile');
 
 $user = Session::init();
 
