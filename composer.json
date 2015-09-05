@@ -1,5 +1,8 @@
 {
   "require": {
     "facebook/hack-codegen": "*"
+  },
+  "autoload": {
+    "classmap": ["cli/", "templates/"]
   }
 }

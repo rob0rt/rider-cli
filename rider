@@ -1,0 +1,6 @@
+#!/usr/bin/php
+<?hh
+
+require 'vendor/autoload.php';
+
+Rider\Cli::run(new Vector($argv));
