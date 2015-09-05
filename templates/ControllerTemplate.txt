@@ -1,5 +1,0 @@
-<?hh
-
-<<path({{PATH}})>>
-class {{CLASS}} extends BaseController {
-}

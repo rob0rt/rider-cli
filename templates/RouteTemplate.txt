@@ -1,3 +1,0 @@
-  <<method({{METHOD}})>>
-  public function {{NAME}}(void): {{RETURN}} {
-  }
