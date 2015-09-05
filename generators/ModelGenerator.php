@@ -4,16 +4,12 @@ namespace Facebook\HackCodegen;
 
 class ModelGenerator {
 
-  public function __construct(
-    private \Rider\ModelSchema $schema,
-  ) {}
+  public function __construct(private \Rider\ModelSchema $schema) {}
 
   private function getSchemaName(): string {
     $ref = new \ReflectionClass($this->schema);
     $name = $ref->getShortName();
-    return Str::endsWith($name, 'Schema')
-      ? Str::substr($name, 0, -6)
-      : $name;
+    return Str::endsWith($name, 'Schema') ? Str::substr($name, 0, -6) : $name;
   }
 
   public function generate(): void {
@@ -22,11 +18,12 @@ class ModelGenerator {
     // everything in the same method, however, for clarity
     // sometimes it's easier to use helper methods such as
     // getConstructor or getLoad in this examples.
-    $class = codegen_class($this->getSchemaName())
-      ->setIsFinal()
-      ->setConstructor($this->getConstructor())
-      ->addMethod($this->getLoad())
-      ->addMethods($this->getGetters());
+    $class =
+      codegen_class($this->getSchemaName())
+        ->setIsFinal()
+        ->setConstructor($this->getConstructor())
+        ->addMethod($this->getLoad())
+        ->addMethods($this->getGetters());
 
     $rc = new \ReflectionClass(get_class($this->schema));
     $path = $rc->getFileName();
@@ -49,39 +46,45 @@ class ModelGenerator {
     // Example of how to generate a constructor.  Very similar
     // to generating a method, but using codegen_constructor()
     // doesn't require to set the name since it's always __constructor
-    return codegen_constructor()
-      ->setPrivate()
-      ->addParameter('private Map<string, mixed> $data');
+    return
+      codegen_constructor()
+        ->setPrivate()
+        ->addParameter('private Map<string, mixed> $data');
   }
 
   private function getLoad(): CodegenMethod {
-    $sql = 'select * from '.
+    $sql =
+      'select * from '.
       $this->schema->getTableName().
-      ' where '.$this->schema->getIdField().'=$id';
+      ' where '.
+      $this->schema->getIdField().
+      '=$id';
 
     // Here's how to build a block of code using hack_builder.
     // Notice that some methods have a sprintf style of arguments
     // to make it easier to build expressions.
     // There are specific methods that make easier to write "if",
     // "foreach", etc.  See HackBuilder documentation.
-    $body = hack_builder()
-      ->addLine('$conn = new PDO(\'%s\');', $this->schema->getDsn())
-      ->add('$cursor = ')
-      ->addMultilineCall('$conn->query', Vector {"\"$sql\""}, true)
-      ->addLine('$result = $cursor->fetch(PDO::FETCH_ASSOC);')
-      ->startIfBlock('!$result')
-      ->addReturn('null')
-      ->endIfBlock()
-      ->addReturn('new %s(new Map($result))', $this->getSchemaName());
+    $body =
+      hack_builder()
+        ->addLine('$conn = new PDO(\'%s\');', $this->schema->getDsn())
+        ->add('$cursor = ')
+        ->addMultilineCall('$conn->query', Vector {"\"$sql\""}, true)
+        ->addLine('$result = $cursor->fetch(PDO::FETCH_ASSOC);')
+        ->startIfBlock('!$result')
+        ->addReturn('null')
+        ->endIfBlock()
+        ->addReturn('new %s(new Map($result))', $this->getSchemaName());
 
     // Here's an example of how to generate a method.  It's common when
     // the code in the method is not trivial to build it using hack_builder.
     // Notice how the parameter and the return type are set.
-    return codegen_method('load')
-      ->setIsStatic()
-      ->addParameter('int $id')
-      ->setReturnType('?'.$this->getSchemaName())
-      ->setBody($body->getCode());
+    return
+      codegen_method('load')
+        ->setIsStatic()
+        ->addParameter('int $id')
+        ->setReturnType('?'.$this->getSchemaName())
+        ->setBody($body->getCode());
   }
 
   private function getGetters(): Vector<CodegenMethod> {
@@ -103,9 +106,9 @@ class ModelGenerator {
           // user can edit and it will be kept even if the code is regenerated.
           // Notice that each section needs to have a unique name, since that's
           // used to match the section when re-generating the code
-          $builder
-            ->beginManualSection($name)
-            ->addInlineComment('You may manually change this section of code');
+          $builder->beginManualSection($name)->addInlineComment(
+            'You may manually change this section of code',
+          );
         }
         // using addWithSuggestedLineBreaks will allow the code
         // to break automatically on long lines on the specified places.
@@ -120,9 +123,10 @@ class ModelGenerator {
       } else {
         $body = 'return '.$return_data.';';
       }
-      $methods[] = codegen_method('get'.$name)
-        ->setReturnType($return_type)
-        ->setBody($body);
+      $methods[] =
+        codegen_method('get'.$name)
+          ->setReturnType($return_type)
+          ->setBody($body);
     }
     return $methods;
   }
