@@ -1,5 +1,7 @@
 <?hh // strict
 
+namespace Rider;
+
 abstract class BaseController {
   abstract public static function getPath(): string;
 

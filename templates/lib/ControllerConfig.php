@@ -1,5 +1,7 @@
 <?hh // strict
 
+namespace Rider;
+
 class ControllerConfig {
   private string $title = '';
   private bool $requires_login = false;

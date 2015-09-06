@@ -1,5 +1,7 @@
 <?hh // strict
 
+namespace Rider;
+
 class CSS {
   private static Vector<string> $files = Vector{};
 

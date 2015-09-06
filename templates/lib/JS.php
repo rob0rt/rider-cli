@@ -1,5 +1,7 @@
 <?hh // strict
 
+namespace Rider;
+
 class JS {
   private static Vector<string> $files = Vector{};
 

@@ -1,5 +1,7 @@
 <?hh // strict
 
+namespace Rider;
+
 class URIMapGenerator {
   public function run(): void {
     $routes = URIMapGenerator::getRoutesMap();
@@ -10,13 +12,13 @@ class URIMapGenerator {
 
   private static function getRoutesMap(): Map<string, string> {
     // Get all the php files in the cwd
-    $directory = new RecursiveDirectoryIterator(getcwd().'/controllers');
-    $iterator = new RecursiveIteratorIterator($directory);
-    $files = new RegexIterator(
+    $directory = new \RecursiveDirectoryIterator(getcwd().'/controllers');
+    $iterator = new \RecursiveIteratorIterator($directory);
+    $files = new \RegexIterator(
       $iterator,
       '/^.+(\.php|\.hh)$/i',
-      RegexIterator::MATCH,
-      RegexIterator::USE_KEY,
+      \RegexIterator::MATCH,
+      \RegexIterator::USE_KEY,
     );
     // Get the paths from the attributes
     $path_map = Map {};
@@ -33,7 +35,7 @@ class URIMapGenerator {
     $paths = Map {};
     $classes = self::getClassesFromFile($file);
     foreach ($classes as $class) {
-      $controller = new ReflectionClass($class);
+      $controller = new \ReflectionClass($class);
       if ($controller->isSubclassOf(BaseController::class)) {
         $paths[$controller->getMethod('getPath')->invoke(null)] = $class;
       }
