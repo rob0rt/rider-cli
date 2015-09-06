@@ -1,6 +1,7 @@
 {
   "require": {
-    "facebook/hack-codegen": "*"
+    "facebook/hack-codegen": "*",
+    "facebook/xhp-lib": "2.x"
   },
   "autoload": {
     "classmap": ["cli/", "templates/"]

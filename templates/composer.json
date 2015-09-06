@@ -1,0 +1,10 @@
+{
+  "require": {
+    "bobertforever/oauth2-mlh": "dev-master",
+    "facebook/xhp-lib": "2.x",
+    "sergeytsalkov/meekrodb": "*"
+  },
+  "autoload": {
+    "classmap": ["views/", "controllers/", "models/", "lib/"]
+  }
+}
